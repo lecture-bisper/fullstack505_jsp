@@ -50,27 +50,120 @@ public class BoardDao extends JDBConnect{
   }
 
 //  지정한 게시물 내용 출력
-//  public BoardDto selectBoard(int postNum) {
-//
-//  }
+  public BoardDto selectBoard(int postNum) {
+    BoardDto board = new BoardDto();
+
+    String sql = "SELECT num, title, content, id, postdate, visitcount ";
+    sql += "FROM board ";
+    sql += "WHERE num = " + postNum + " ";
+
+    try {
+      stmt = conn.createStatement();
+      rs = stmt.executeQuery(sql);
+
+      while (rs.next()) {
+        board.setPostNum(rs.getInt("num"));
+        board.setPostTitle(rs.getString("title"));
+        board.setPostContent(rs.getString("content"));
+        board.setPostWriteUser(rs.getString("id"));
+        board.setPostDate(rs.getString("postdate"));
+        board.setPostVisitCount(rs.getInt("visitcount"));
+      }
+    }
+    catch (SQLException e) {
+      System.out.println("게시글 조회 시 오류가 발생했습니다.");
+      e.printStackTrace();
+    }
+
+    return board;
+  }
 
 //  게시물 등록하기
-  public void insertBoard(BoardDto board) {
+  public int insertBoard(BoardDto board) {
+    int result = 0;
 
+//    SQL 쿼리문 생성, PreparedStatement를 사용할 것이므로 데이터 입력 부분에 ?를 대신 사용
+    String sql = "INSERT INTO board (title, content, id, postdate) ";
+    sql += "VALUES (?, ?, ?, NOW()) ";
+
+    try {
+//      PreparedStatement객체 생성
+      pstmt = conn.prepareStatement(sql);
+//      SQL 쿼리문의 ? 부분에 실제 데이터 입력
+      pstmt.setString(1, board.getPostTitle());
+      pstmt.setString(2, board.getPostContent());
+      pstmt.setString(3, board.getPostWriteUser());
+
+//      SQL 쿼리문을 데이터 베이스에 전송하여 실행, 결과를 받아옴
+      result = pstmt.executeUpdate();
+    }
+    catch (SQLException e) {
+      System.out.println("게시물 입력 시 오류가 발생했습니다.");
+      e.printStackTrace();
+    }
+
+    return result;
   }
 
 //  게시물 정보 수정하기
-  public void updateBoard(BoardDto board) {
+  public int updateBoard(int postNum, String postTitle, String postContent) {
+    int result = 0;
 
+    String sql = "UPDATE board SET title = ?, content = ? ";
+    sql += "WHERE num = ? ";
+
+    try {
+      pstmt = conn.prepareStatement(sql);
+      pstmt.setString(1, postTitle);
+      pstmt.setString(2,  postContent);
+      pstmt.setInt(3, postNum);
+
+      result = pstmt.executeUpdate();
+    }
+    catch (SQLException e) {
+      System.out.println("Update 실행 시 오류 발생!!");
+      e.printStackTrace();
+    }
+
+    return result;
   }
 
 //  게시물 삭제하기
-  public void deleteBoard(int postNum) {
+  public int deleteBoard(int postNum) {
+    int result = 0;
 
+//    DELETE 쿼리 작성
+    String sql = "DELETE FROM board WHERE num = ? ";
+
+    try {
+//      PreparedStatement 객체 생성
+      pstmt = conn.prepareStatement(sql);
+//      SQL 쿼리의 ? 에 실제 데이터 대입
+      pstmt.setInt(1, postNum);
+
+//      PreparedStatement를 사용하여 데이터 베이스에 DELETE 쿼리문 전송 및 실행
+      result = pstmt.executeUpdate();
+    }
+    catch (SQLException e) {
+      System.out.println("게시물 삭제 시 오류가 발생했습니다.");
+      e.printStackTrace();
+    }
+    return result;
   }
   
 //  게시물 조회수 올리기
   public void upateVisitCount(int postNum) {
-    
+    String sql = "UPDATE board SET visitcount = visitcount + 1 WHERE num = ? ";
+
+    try {
+      pstmt = conn.prepareStatement(sql);
+      pstmt.setInt(1, postNum);
+
+      pstmt.executeUpdate();
+    }
+    catch (SQLException e) {
+      System.out.println("조회수 업데이트 중 오류가 발생했습니다.");
+      e.printStackTrace();
+    }
   }
 }
