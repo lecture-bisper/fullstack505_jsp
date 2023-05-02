@@ -41,7 +41,7 @@
     </ul>
   </nav>
   <div class="container rounded my-4 py-5 bg-secondary bg-opacity-25">
-    <h1 class="text-center">Model1 방식 게시판 목록</h1>
+    <h1 class="text-center">Model1 방식 게시판 목록 페이지</h1>
   </div>
 </header>
 <main class="container my-4 p-0">
@@ -64,7 +64,8 @@
     %>
     <tr>
       <td><%=dto.getPostNum()%></td>
-      <td><%=dto.getPostTitle()%></td>
+<%--      제목 표시 부분에 해당 글을 읽기 위한 링크를 설정--%>
+      <td><a href="BoardRead.jsp?postNum=<%=dto.getPostNum()%>" class="text-decoration-none"><%=dto.getPostTitle()%></a></td>
       <td><%=dto.getPostWriteUser()%></td>
       <td><%=dto.getPostDate()%></td>
       <td><%=dto.getPostVisitCount()%></td>
@@ -83,6 +84,9 @@
     %>
     </tbody>
   </table>
+  <div class="d-flex justify-content-end">
+    <a href="BoardWrite.jsp" class="btn btn-primary">글쓰기</a>
+  </div>
 </main>
 <footer class="container-fluid my-5 p-5 border-top">
   <p class="lead text-muted text-center">made by fullstack505</p>
