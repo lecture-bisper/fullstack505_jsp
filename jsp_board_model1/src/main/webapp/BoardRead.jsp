@@ -66,86 +66,88 @@
   </script>
 </head>
 <body>
-<header class="mb-4">
-  <nav class="navbar navbar-expand-sm navbar-dark bg-dark mb-3">
-    <ul class="navbar-nav">
-      <li class="nav-link"><a class="nav-link" href="#">메뉴1</a></li>
-    </ul>
-  </nav>
-  <div class="container rounded my-4 py-5 bg-secondary bg-opacity-25">
-    <h1 class="text-center">Model1 방식 게시판 글 확인 페이지</h1>
-  </div>
-</header>
+
+<%@ include file="Header.jsp" %>
+
 <main class="container my-4 p-0">
-<%--  글번호, 글제목--%>
-  <div class="row my-3">
-    <div class="col-sm-2">
-      <label for="post-num" class="form-label">글번호 : </label>
-      <input type="text" class="form-control" id="post-num" name="postNum" value="<%=board.getPostNum()%>" disabled>
+  <%--  글번호, 글제목--%>
+    <div class="row my-3">
+      <div class="col-sm-2">
+        <label for="post-num" class="form-label">글번호 : </label>
+        <input type="text" class="form-control" id="post-num" value="<%=board.getPostNum()%>" disabled>
+      </div>
+      <div class="col-sm">
+        <label for="post-title" class="form-label">글제목 : </label>
+        <input type="text" class="form-control" id="post-title" name="postTitle" value="<%=board.getPostTitle()%>">
+      </div>
     </div>
-    <div class="col-sm">
-      <label for="post-title" class="form-label">글제목 : </label>
-      <input type="text" class="form-control" id="post-title" name="postTitle" value="<%=board.getPostTitle()%>">
+  <%--  글쓴이, 등록시간, 조회수--%>
+    <div class="row my-3">
+      <div class="col-sm">
+        <label for="post-write-user" class="form-label">글쓴이 : </label>
+        <input type="text" class="form-control" id="post-write-user" name="postWriteUser" value="<%=board.getPostWriteUser()%>" readonly>
+      </div>
+      <div class="col-sm">
+        <label for="post-date" class="form-label">등록시간 : </label>
+        <input type="text" class="form-control" id="post-date" name="postDate" value="<%=board.getPostDate()%>" readonly>
+      </div>
+      <div class="col-sm">
+        <label for="post-visit-count" class="form-label">조회수 : </label>
+        <input type="text" class="form-control" id="post-visit-count" name="postVisitCount" value="<%=board.getPostVisitCount()%>" readonly>
+      </div>
     </div>
-  </div>
-<%--  글쓴이, 등록시간, 조회수--%>
-  <div class="row my-3">
-    <div class="col-sm">
-      <label for="post-write-user" class="form-label">글쓴이 : </label>
-      <input type="text" class="form-control" id="post-write-user" name="postWriteUser" value="<%=board.getPostWriteUser()%>" readonly>
+  <%--  글 내용--%>
+    <div class="row my-3">
+      <div class="col-sm">
+        <label for="post-content" class="form-label">글내용 : </label>
+        <textarea class="form-control" id="post-content" name="postContent" rows="5"><%=board.getPostContent()%></textarea>
+      </div>
     </div>
-    <div class="col-sm">
-      <label for="post-date" class="form-label">등록시간 : </label>
-      <input type="text" class="form-control" id="post-date" name="postDate" value="<%=board.getPostDate()%>" readonly>
+  <%--  버튼--%>
+  <%--  float--%>
+  <%--  <div class="row">--%>
+  <%--    <div class="col-sm clearfix">--%>
+  <%--      <button type="button" class="btn btn-secondary float-start" id="btn-list">목록</button>--%>
+  <%--      <button type="button" class="btn btn-primary float-end ms-2" id="btn-edit">수정</button>--%>
+  <%--      <button type="button" class="btn btn-danger float-end" id="btn-delete">삭제</button>--%>
+  <%--    </div>--%>
+  <%--  </div>--%>
+  <%--  flexbox--%>
+    <div class="row">
+      <div class="col-sm d-flex justify-content-start">
+        <button type="button" class="btn btn-secondary float-start" id="btn-list">목록</button>
+      </div>
+      <div class="col-sm d-flex justify-content-end">
+  <%--      1. form을 사용한 방식--%>
+  <%--      form을 사용 시 form 태그의 자식태그로 포함되어 있는 input 태그의 데이터만 서버로 전송--%>
+<%--        <form action="DeleteProcess.jsp" method="get">--%>
+<%--          <input type="hidden" name="postNum" value="<%=board.getPostNum()%>">--%>
+<%--          <button type="submit" class="btn btn-danger float-end">1번 방식 삭제</button>--%>
+<%--        </form>--%>
+  <%--      2. a 태그를 사용한 방식--%>
+  <%--      a 태그를 이용하여 직접 DeleteProcess.jsp로 접속하여 게시물 삭제--%>
+  <%--      <a href="DeleteProcess.jsp?postNum=<%=board.getPostNum()%>" class="btn btn-danger">2번 방식 삭제</a>--%>
+  <%--      3. 자바스크립트를 사용하는 방식--%>
+<%--        <button type="button" class="btn btn-danger float-end" id="btn-delete">삭제</button>--%>
+  <%--  1. a 태그를 사용하여 BoardUpdate.jsp로 이동 --%>
+  <%--      <a href="BoardUpdate.jsp?postNum=<%=board.getPostNum()%>" class="btn btn-primary ms-2">수정</a>--%>
+  <%--  2. 자바스크립트를 사용하여 BoardUpdate.jsp로 이동--%>
+<%--        <button type="button" class="btn btn-primary float-end ms-2" id="btn-edit">수정</button>--%>
+
+        <%
+          if (session.getAttribute("userId") != null) {
+        %>
+            <button type="button" class="btn btn-danger float-end" id="btn-delete">삭제</button>
+            <button type="button" class="btn btn-primary float-end ms-2" id="btn-edit">수정</button>
+        <%
+          }
+        %>
+      </div>
     </div>
-    <div class="col-sm">
-      <label for="post-visit-count" class="form-label">조회수 : </label>
-      <input type="text" class="form-control" id="post-visit-count" name="postVisitCount" value="<%=board.getPostVisitCount()%>" readonly>
-    </div>
-  </div>
-<%--  글 내용--%>
-  <div class="row my-3">
-    <div class="col-sm">
-      <label for="post-content" class="form-label">글내용 : </label>
-      <textarea class="form-control" id="post-content" name="postContent" rows="5"><%=board.getPostContent()%></textarea>
-    </div>
-  </div>
-<%--  버튼--%>
-<%--  float--%>
-<%--  <div class="row">--%>
-<%--    <div class="col-sm clearfix">--%>
-<%--      <button type="button" class="btn btn-secondary float-start" id="btn-list">목록</button>--%>
-<%--      <button type="button" class="btn btn-primary float-end ms-2" id="btn-edit">수정</button>--%>
-<%--      <button type="button" class="btn btn-danger float-end" id="btn-delete">삭제</button>--%>
-<%--    </div>--%>
-<%--  </div>--%>
-<%--  flexbox--%>
-  <div class="row">
-    <div class="col-sm d-flex justify-content-start">
-      <button type="button" class="btn btn-secondary float-start" id="btn-list">목록</button>
-    </div>
-    <div class="col-sm d-flex justify-content-end">
-<%--      1. form을 사용한 방식--%>
-<%--      form을 사용 시 form 태그의 자식태그로 포함되어 있는 input 태그의 데이터만 서버로 전송--%>
-<%--      <form action="DeleteProcess.jsp" method="get">--%>
-<%--        <input type="hidden" name="postNum" value="<%=board.getPostNum()%>">--%>
-<%--        <button type="submit" class="btn btn-danger float-end">1번 방식 삭제</button>--%>
-<%--      </form>--%>
-<%--      2. a 태그를 사용한 방식--%>
-<%--      a 태그를 이용하여 직접 DeleteProcess.jsp로 접속하여 게시물 삭제--%>
-<%--      <a href="DeleteProcess.jsp?postNum=<%=board.getPostNum()%>" class="btn btn-danger">2번 방식 삭제</a>--%>
-<%--      3. 자바스크립트를 사용하는 방식--%>
-      <button type="button" class="btn btn-danger float-end" id="btn-delete">삭제</button>
-<%--  1. a 태그를 사용하여 BoardUpdate.jsp로 이동 --%>
-<%--      <a href="BoardUpdate.jsp?postNum=<%=board.getPostNum()%>" class="btn btn-primary ms-2">수정</a>--%>
-<%--  2. 자바스크립트를 사용하여 BoardUpdate.jsp로 이동--%>
-      <button type="button" class="btn btn-primary float-end ms-2" id="btn-edit">수정</button>
-    </div>
-  </div>
 </main>
-<footer class="container-fluid my-5 p-5 border-top">
-  <p class="lead text-muted text-center">made by fullstack505</p>
-</footer>
+
+<%@ include file="Footer.jsp" %>
+
 </body>
 </html>
 
