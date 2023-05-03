@@ -7,9 +7,26 @@ import java.util.List;
 // 실제 데이터베이스와 연결해서 데이터를 CRUD하기 위한 클래스
 public class BoardDao extends JDBConnect{
 //  검색 결과 수
-//  public int selectCount() {
-//
-//  }
+  public int totalCount() {
+    int result = 0;
+
+    String sql = "SELECT count(*) AS cnt FROM board ";
+
+    try {
+      stmt = conn.createStatement();
+      rs = stmt.executeQuery(sql);
+
+      while (rs.next()) {
+        result = rs.getInt("cnt");
+      }
+    }
+    catch (SQLException e) {
+      System.out.println("SELECT 사용 중 오류가 발생했습니다.");
+      e.printStackTrace();
+    }
+
+    return result;
+  }
 
 //  전체 게시물 목록 출력
   public List<BoardDto> selectList() {
@@ -24,6 +41,48 @@ public class BoardDao extends JDBConnect{
       stmt = conn.createStatement();
 //      SQL 쿼리문 실행, 결과 받아오기
       rs = stmt.executeQuery(sql);
+
+//      가져온 결과물을 하나씩 출력
+      while (rs.next()) {
+//        게시물 1개의 정보를 저장할 수 있는 BoardDto 객체 생성
+        BoardDto board = new BoardDto();
+
+//        게시물 정보 저장
+        board.setPostNum(rs.getInt("num"));
+        board.setPostTitle(rs.getString("title"));
+        board.setPostWriteUser(rs.getString("id"));
+        board.setPostDate(rs.getString("postdate"));
+        board.setPostVisitCount(rs.getInt("visitcount"));
+
+//        게시물 전체 리스트를 저장하는 dataList에 BoardDto 객체 추가
+        dataList.add(board);
+      }
+    }
+    catch (SQLException e) {
+      System.out.println("게시물 목록 조회 중 오류가 발생했습니다.");
+      e.printStackTrace();
+    }
+
+    return dataList;
+  }
+
+  public List<BoardDto> selectList(int startNum, int postSize) {
+//    게시물의 목록을 저장할 빈 List 선언
+    List<BoardDto> dataList = new ArrayList<BoardDto>();
+
+//    게시물 목록을 가져올 SQL 쿼리 생성
+    String sql = "SELECT num, title, id, postdate, visitcount FROM board ";
+    sql += "ORDER BY num DESC ";
+    sql += "LIMIT ?, ? ";
+
+    try {
+//      SQL 쿼리 명령을 위해서 Statement 객체 생성
+      pstmt = conn.prepareStatement(sql);
+      pstmt.setInt(1, startNum);
+      pstmt.setInt(2, postSize);
+
+//      SQL 쿼리문 실행, 결과 받아오기
+      rs = pstmt.executeQuery();
 
 //      가져온 결과물을 하나씩 출력
       while (rs.next()) {
