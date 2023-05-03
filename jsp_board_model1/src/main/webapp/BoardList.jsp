@@ -34,16 +34,9 @@
           crossorigin="anonymous"></script>
 </head>
 <body>
-<header class="mb-4">
-  <nav class="navbar navbar-expand-sm navbar-dark bg-dark mb-3">
-    <ul class="navbar-nav">
-      <li class="nav-link"><a class="nav-link" href="#">메뉴1</a></li>
-    </ul>
-  </nav>
-  <div class="container rounded my-4 py-5 bg-secondary bg-opacity-25">
-    <h1 class="text-center">Model1 방식 게시판 목록 페이지</h1>
-  </div>
-</header>
+
+<%@ include file="Header.jsp" %>
+
 <main class="container my-4 p-0">
   <table class="table table-hover table-striped">
     <thead>
@@ -85,12 +78,16 @@
     </tbody>
   </table>
   <div class="d-flex justify-content-end">
-    <a href="BoardWrite.jsp" class="btn btn-primary">글쓰기</a>
+    <%
+      if (session.getAttribute("userId") != null) {
+        out.println("<a href=\"BoardWrite.jsp\" class=\"btn btn-primary\">글쓰기</a>");
+      }
+    %>
   </div>
 </main>
-<footer class="container-fluid my-5 p-5 border-top">
-  <p class="lead text-muted text-center">made by fullstack505</p>
-</footer>
+
+<%@ include file="Footer.jsp" %>
+
 </body>
 </html>
 
