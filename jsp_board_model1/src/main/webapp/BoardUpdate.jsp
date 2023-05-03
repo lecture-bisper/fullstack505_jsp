@@ -34,16 +34,9 @@
           crossorigin="anonymous"></script>
 </head>
 <body>
-<header class="mb-4">
-  <nav class="navbar navbar-expand-sm navbar-dark bg-dark mb-3">
-    <ul class="navbar-nav">
-      <li class="nav-link"><a class="nav-link" href="#">메뉴1</a></li>
-    </ul>
-  </nav>
-  <div class="container rounded my-4 py-5 bg-secondary bg-opacity-25">
-    <h1 class="text-center">Model1 방식 게시판 글 수정 페이지</h1>
-  </div>
-</header>
+<%--세션 확인--%>
+<%@ include file="Header.jsp" %>
+
 <main class="container my-4 p-0">
   <form action="UpdateProcess.jsp" method="post">
   <%--  글번호--%>
@@ -82,9 +75,9 @@
     </div>
   </form>
 </main>
-<footer class="container-fluid my-5 p-5 border-top">
-  <p class="lead text-muted text-center">made by fullstack505</p>
-</footer>
+
+<%@ include file="Footer.jsp" %>
+
 </body>
 </html>
 

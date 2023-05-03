@@ -21,7 +21,6 @@
 <body>
 
 <%--세션 확인--%>
-<%@ include file="IsLoggedIn.jsp" %>
 <%@ include file="Header.jsp" %>
 
 <main class="container my-4 p-0">
