@@ -23,7 +23,7 @@
   dto.setPostTitle(postTitle);
   dto.setPostContent(postContent);
 //  세션 정보에 저장된 userId를 불러와서 사용해야 함
-  dto.setPostWriteUser("testuser1");
+  dto.setPostWriteUser(session.getAttribute("userId").toString());
 
 //  데이터 베이스 이용을 위해서 DAO 클래스 타입의 객체 생성 및 DB 연결
   BoardDao dao = new BoardDao();
