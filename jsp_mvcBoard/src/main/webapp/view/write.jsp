@@ -19,12 +19,15 @@
           crossorigin="anonymous"></script>
 </head>
 <body>
-<jsp:include page="/layout/header.jsp"></jsp:include>
+<%--액션 태그를 사용한 include 와 parameter 전달--%>
+<jsp:include page="/layout/header.jsp">
+  <jsp:param name="pageName" value="writePage"/>
+</jsp:include>
 
 <main class="container my-4 py-4">
   <div class="my-3 row">
     <div class="col-sm-4 mx-auto">
-      <form action="/mvcBoard/Write.do" method="post">
+      <form action="/mvcBoard/Write.do" method="post" enctype="multipart/form-data">
         <div class="my-3">
           <label for="title" class="form-label">제목 : </label>
           <input type="text" class="form-control" id="title" name="title" placeholder="제목을 입력하세요">
@@ -38,8 +41,8 @@
           <input type="password" class="form-control" id="pass" name="pass" placeholder="글삭제 비밀번호를 입력하세요">
         </div>
         <div class="my-3">
-          <label for="contents" class="form-label">내용 : </label>
-          <textarea class="form-control" id="contents" name="contents" rows="5"></textarea>
+          <label for="content" class="form-label">내용 : </label>
+          <textarea class="form-control" id="content" name="content" rows="5"></textarea>
         </div>
         <div class="my-3">
           <label for="file" class="form-label">첨부파일 : </label>

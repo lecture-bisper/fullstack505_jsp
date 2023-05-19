@@ -28,9 +28,11 @@
 <body>
 <%--액션 태그의 include로 페이지 불러오기--%>
 <%--<jsp:include page="/layout/header.jsp"></jsp:include>--%>
+<%--jstl의 import 로 페이지 불러오기와 parameter 전달--%>
 
-<%--jstl의 import 로 페이지 불러오기--%>
-<c:import url="/layout/header.jsp"></c:import>
+<c:import url="/layout/header.jsp">
+  <c:param name="pageName" value="listPage"></c:param>
+</c:import>
 
 <main class="container my-4 py-4">
   <div class="my-3">

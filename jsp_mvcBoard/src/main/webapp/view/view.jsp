@@ -37,12 +37,22 @@
         const postIdx = $("#post-idx").val();
         location.href = "/mvcBoard/Pass.do?mode=delete&idx=" + postIdx;
       });
+
+      $("#post-ofile").on("click", function() {
+        const postIdx = $("#post-idx").val();
+        const postOfile = $("#post-ofile").val();
+        const postSfile = $("#post-sfile").val();
+
+        location.href = "/mvcBoard/Download.do?ofile=" + postOfile + "&sfile=" + postSfile + "&idx=" + postIdx;
+      });
     });
   </script>
 </head>
 <body>
 
-<c:import url="/layout/header.jsp"></c:import>
+<c:import url="/layout/header.jsp">
+  <c:param name="pageName" value="viewPage"></c:param>
+</c:import>
 
 <main class="container my-4 py-4">
   <div class="my-3 row">
@@ -81,6 +91,7 @@
     <div class="col-sm">
       <label for="post-ofile" class="form-label">첨부파일 : </label>
       <input type="text" class="form-control" id="post-ofile" name="postOfile" value="${board.postOfile}" readonly>
+      <input type="hidden" id="post-sfile" value="${board.postSfile}">
     </div>
     <div class="col-sm">
       <label for="post-dn-count" class="form-label">다운로드 수  : </label>
