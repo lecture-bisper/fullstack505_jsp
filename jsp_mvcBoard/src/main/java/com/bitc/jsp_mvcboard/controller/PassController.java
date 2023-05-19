@@ -1,13 +1,16 @@
 package com.bitc.jsp_mvcboard.controller;
 
 import com.bitc.jsp_mvcboard.model.MVCBoardDAO;
+import com.bitc.jsp_mvcboard.util.JSFunc;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 @WebServlet("/mvcBoard/Pass.do")
 public class PassController extends HttpServlet {
@@ -38,7 +41,12 @@ public class PassController extends HttpServlet {
     if (confirmed) {
 //      수정 페이지로 이동
       if (postMode.equals("edit")) {
+//        비밀번호를 EditController로 전달
+//        HttpSession : 세션 영역에 데이터를 저장하기 위한 클래스, request 객체에서 세션 정보를 가져와야 함
+//        HttpSession session = req.getSession();
+//        session.setAttribute("postPass", postPass);
 
+        resp.sendRedirect("/mvcBoard/Edit.do?idx=" + postIdx);
       }
       else if (postMode.equals("delete")) { //  현재 게시글 삭제
         dao = new MVCBoardDAO();
@@ -56,7 +64,7 @@ public class PassController extends HttpServlet {
       }
     }
     else {
-
+      JSFunc.alertBack("비밀번호가 다릅니다.", resp);
     }
   }
 }
